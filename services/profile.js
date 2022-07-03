@@ -7,7 +7,6 @@ async function getProfile(id) { //reading user profile
 }
 
 async function register(body) {  //Registering user profile
-    console.log(body.profile_user)
     return db.create(
       "profile", //table
       "profile_user, description, birthdate, city, country, gender, job, picture", //fields

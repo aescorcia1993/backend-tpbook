@@ -7,16 +7,15 @@ router.post("/register", async function (req, res, next) {
     try {
       res.status(201).json(await comments.register(req.body));
     } catch (err) {
-      console.error(`Error while registering user `, err.message);
+      console.error(`Error while registering comments `, err.message);
       next(err);
     }
   });
 router.put("/update", async function (req, res, next) {
-  console.log("req:", req)
   try {
     res.status(201).json(await comments.update(req.body));
   } catch (err) {
-    console.error(`Error while registering user `, err.message);
+    console.error(`Error while registering comments `, err.message);
     next(err);
   }
 });  

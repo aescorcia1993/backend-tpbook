@@ -3,7 +3,6 @@ const router = express.Router();
 const profile = require("../services/profile");
 
 router.post("/register", async function (req, res, next) {
-    console.log("req:", req)
     try {
       res.status(201).json(await profile.register(req.body));
     } catch (err) {
@@ -12,7 +11,6 @@ router.post("/register", async function (req, res, next) {
     }
   });
 router.put("/update", async function (req, res, next) {
-  console.log("req:", req)
   try {
     res.status(201).json(await profile.update(req.body));
   } catch (err) {

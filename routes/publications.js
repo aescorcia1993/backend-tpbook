@@ -3,7 +3,6 @@ const router = express.Router();
 const publications = require("../services/publications");
 
 router.post("/register", async function (req, res, next) {
-    console.log("req:", req)
     try {
       res.status(201).json(await publications.register(req.body));
     } catch (err) {
