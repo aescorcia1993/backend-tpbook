@@ -10,6 +10,7 @@ router.post("/register", async function (req, res, next) {
       next(err);
     }
   });
+
 router.put("/update", async function (req, res, next) {
  
   try {
@@ -19,14 +20,25 @@ router.put("/update", async function (req, res, next) {
     next(err);
   }
 });  
-router.get("/get/:id", async function (req, res, next) {
+
+router.get("/getPublicationsById/:id", async function (req, res, next) {
   try {
-    res.json(await publications.getPublications(req.params.id));
+    res.json(await publications.getPublicationsById(req.params.id));
   } catch (err) {
     console.error(`Error reading data`, err.message);
     next(err);
   }
 });
+
+router.get("/getAllPublications", async function (req, res, next) {
+  try {
+    res.json(await publications.getAllPublications(req.params.id));
+  } catch (err) {
+    console.error(`Error reading data`, err.message);
+    next(err);
+  }
+});
+
 router.delete("/remove/:id", async function (req, res, next) {
   try {
     res.json(await publications.remove(req.params.id));

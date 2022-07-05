@@ -2,48 +2,55 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
-async function getPublications(id) { //reading user publications
+async function getPublicationsById(id) { 
+    let tables = "publications";
+    let filters = `author='${id}'`;
+    let fields = "idpublications, author, stamp,content, likes";
     if(id>0){
-        return db.read("publications", `author = '${id}'`,"*")
+      return db.read(tables, filters,fields)
     }
-    return db.read("publications", `author != '-1'`,"*") //We ask for all data
+    return db.read(tables, `idusuario=author`,fields) 
 }
 
-async function register(body) {  //Registering user profile
+async function getAllPublications() { 
+    let tables = "publications";
+    let filters="stamp > 0";
+    let result = await db.read(tables, filters);
+    return  result
+}
+
+async function register(body) {  
     return db.create(
-      "publications", //table
-      "idpublications, author, date, hour, content, likes", //fields
-      `"${body.idpublications}",
-      "${body.author}",
-      "${body.date}",
-      "${body.hour}",
+      "publications", 
+      "author, stamp, content, likes", 
+      `"${body.author}",
+      "${body.stamp}",
       "${body.content}",
-      "${body.likes}"    
-      `) //values
+      "${body.likes}"`) 
 }
 
-async function update(body) {  //Updating publications
+async function update(body) {
     return db.update(
       "publications", 
-      `idpublications="${body.idpublications}", 
-      author="${body.author}", 
-      date="${body.date}", 
-      hour="${body.hour}", 
+      `author="${body.author}", 
+      stamp="${body.stamp}",  
       content="${body.content}", 
       likes="${body.likes}"` , 
-      body.idpublications
-      ) //values
+      body.idpublications,
+      "idpublications"
+      )
 }
 
-async function remove(id) {  //Registering users
+async function remove(id){ 
     return db.de1ete(
-        "publications", //table
-        "idpublications", //key
-      id) //id to erase
+        "publications",
+        "idpublications", 
+      id) 
 }
 
 module.exports = {
-    getPublications,
+    getPublicationsById,
+    getAllPublications,
     update,
     register,
     remove,

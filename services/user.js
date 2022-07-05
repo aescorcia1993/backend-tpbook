@@ -3,7 +3,13 @@ const helper = require("../helper");
 const config = require("../config");
 
 async function login(body) { //Logging users, validating name and password
-  return db.read("usuario", `name = '${body.user}' AND password = '${body.password}'`,"*",  `LIMIT 1`)
+  let result = await db.read(
+    "usuario",
+    `name = '${body.user}' AND password = '${body.password}'`,
+     "*",
+     `LIMIT 1`);
+
+  return result !== null ? result[0] : result
 }
 
 async function register(body) {  //Registering users

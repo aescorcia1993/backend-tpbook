@@ -6,9 +6,9 @@ async function getProfile(id) { //reading user profile
     return db.read("profile", `profile_user = '${id}'`,"*", "LIMIT 1")
 }
 
-async function register(body) {  //Registering user profile
+async function register(body) { 
     return db.create(
-      "profile", //table
+      "profile", 
       "profile_user, description, birthdate, city, country, gender, job, picture", //fields
       `${body.profile_user},
       "${body.description}",
@@ -18,15 +18,13 @@ async function register(body) {  //Registering user profile
       "${body.gender}",
       "${body.job}",            
       "${body.picture}"      
-      `) //values
+      `) 
 }
 
-async function update(body) {  //Registering user profile
-
+async function update(body) {  
     return db.update(
       "profile", 
-      `idprofile="${body.idprofile}", 
-      profile_user="${body.profile_user}", 
+      `profile_user="${body.profile_user}", 
       description="${body.description}", 
       birthdate="${body.birthdate}", 
       city="${body.city}", 
@@ -34,8 +32,9 @@ async function update(body) {  //Registering user profile
       gender="${body.gender}", 
       job="${body.job}", 
       picture="${body.picture}"` , 
-      body.profile_user
-      ) //values
+      body.profile_user,
+      "idprofile"
+      ) 
 }
 
 async function remove(id) {  //Registering users

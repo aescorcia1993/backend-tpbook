@@ -5,7 +5,7 @@ const config = require("../config");
 async function query(sql, params) {
   const connection = await mysql.createConnection(config.db);
   const [results] = await connection.execute(sql, params);
-
+  console.log("#####RESULTS",results);
   return results;
 }
 
@@ -16,10 +16,8 @@ async function read(table, filter, fields='*', others='') {
      WHERE ${filter} ${others}`     
   );
   const data = helper.emptyOrRows(rows);
-  if (data.length >1){
+  if (data.length >0){
     return data;  
-  }else if(data.length === 1){
-    return data[0];
   }else{
     return null;
   }
@@ -39,11 +37,11 @@ async function create(table, fields, values) {
   return { message };
 }
 
-async function update(table, changes,id) {
+async function update(table, changes,id,field) {
   const result = await query(
     `UPDATE ${table} 
     SET ${changes} 
-    WHERE profile_user=${id}`    
+    WHERE ${field}=${id}`    
   );
 
   let message = "Error in updating Data";
@@ -67,6 +65,20 @@ async function de1ete(table, field, id) {
   return { message };
 }
 
+async function custom(sqlQy) {
+  const rows = await query(
+    sqlQy
+  );
+  const data = helper.emptyOrRows(rows);
+  if (data.length >1){
+    return data;  
+  }else if(data.length === 1){
+    return data[0];
+  }else{
+    return null;
+  }
+}
+
 module.exports = {
   query,
 
@@ -74,4 +86,9 @@ module.exports = {
   read,
   update,
   de1ete,
+  custom
 };
+
+//SELECT mytest.comments.idcomments, mytest.comments.content, mytest.comments.stamp, mytest.comments.autorid, mytest.comments.postid
+//FROM mytest.comments
+//INNER JOIN mytest.usuario ON mytest.comments.autorid = 1;
